@@ -2,16 +2,17 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import Sidebar from "./components/Sidebar"
 import MainContent from "./components/MainContent"
 import React, { Suspense } from "react"
+import { NavBar } from "./components/NavBar"
+import CartPage from "./page/CartPage"
 const ProductPage = React.lazy(() => import("./components/ProductPage"))
+
 
 function App() {
 
   return (
     <Router>
-      <div className="flex h-screen">
-        <Sidebar/>
-
-        <div className="rounded w-full flex justify-between flex-wrap">
+      <NavBar/>
+      
           <Routes>
             <Route path="/" element={<MainContent/>}/>
               <Route 
@@ -22,10 +23,13 @@ function App() {
                   </Suspense>
                 }
               />
+              <Route 
+                path="/cart"
+                element={
+                  <CartPage/>
+                }
+              />
           </Routes> 
-        </div>
-
-      </div>
     </Router>
   )
 }
