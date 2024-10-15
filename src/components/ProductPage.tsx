@@ -10,45 +10,68 @@ interface Product {
     rating: number
     images: string[]
 }
-const ProductPage = () => {
 
-    const { id } = useParams<{id: string}>();
+const SkeletonLoader = () => {
+    return (
+        <div className="p-5 w-[60%] animate-pulse">
+            <div className="mb-5">
+                <div className="h-10 w-24 bg-gray-300 rounded"></div>
+            </div>
+
+            <div className="h-48 w-full bg-gray-300 rounded mb-8"></div>
+
+            <div className="h-8 w-[70%] bg-gray-300 rounded mb-4"></div>
+            <div className="h-6 w-[40%] bg-gray-300 rounded mb-4"></div>
+
+            <div className="flex">
+                <div className="h-6 w-20 bg-gray-300 rounded"></div>
+                <div className="h-6 w-20 bg-gray-300 rounded ml-10"></div>
+            </div>
+        </div>
+    );
+}
+
+const ProductPage = () => {
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [product, setProduct] = useState<Product | null>(null);
 
-    useEffect(()=>{
-        if(id){
+    useEffect(() => {
+        if (id) {
             axios.get<Product>(`https://dummyjson.com/products/${id}`)
-            .then(res => setProduct(res.data))
-            .catch(err => console.error(`Error while fetching specific produt ${err}`))
+                .then(res => setProduct(res.data))
+                .catch(err => console.error(`Error while fetching specific product ${err}`))
         }
-    }, [id])
+    }, [id]);
 
-    if(!product){
-        return <h1>Loding....</h1>
+    if (!product) {
+        return <SkeletonLoader />;
     }
-  return <div className="p-5 w-[60%]">
-        <button
-            onClick={()=>navigate(-1)}
-            className="mb-5 px-4 bg-black text-white rounded"
-        >
-            Back
-        </button>
 
-        <img 
-            src={product.images[0]} 
-            alt={product.title}
-            className="w-[50%] h-auto mb-8"
-        />
+    return (
+        <div className="p-5 w-[60%]">
+            <button
+                onClick={() => navigate(-1)}
+                className="mb-5 px-4 py-2 bg-black text-white rounded hover:bg-gray-900 transition duration-200"
+            >
+                {`< Back`}
+            </button>
 
-        <h1 className="text-2xl mb-4 font-bold">{product.title}</h1>
-        <p className="mb-4 text-gray-700 w-[70%]">{product.description}</p>
+            <img
+                src={product.images[0]}
+                alt={product.title}
+                className="w-[50%] h-auto mb-8 border rounded-lg shadow-md"
+            />
 
-        <div className="flex">
-            <p>Price: ${product.price}</p>
-            <p className="ml-10">Rating: {product.rating}</p>
+            <h1 className="text-2xl mb-4 font-bold">{product.title}</h1>
+            <p className="mb-4 text-gray-700 w-[70%]">{product.description}</p>
+
+            <div className="flex">
+                <p className="font-semibold text-lg">Price: ${product.price}</p>
+                <p className="font-semibold text-lg ml-10">Rating: {product.rating}</p>
+            </div>
         </div>
-  </div>
+    );
 }
 
-export default ProductPage
+export default ProductPage;
