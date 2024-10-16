@@ -152,13 +152,13 @@ const Sidebar = () => {
             <div className="mb-5 mt-4">
                 <h2 className="text-xl font-semibold mb-3">keywords</h2>
                 <div>
-                    {keywords.map((keyword, index) => (
+                    {keywords.map((k, index) => (
                         <button
                             key={index}
-                            className="block mb-2 px-4 py-2 w-full text-left border rounded hover:bg-gray-200"
-                            onClick={() => handleKeywordClick(keyword)}
+                            className={`block mb-2 px-4 py-2 w-full text-left border rounded hover:bg-gray-200 ${keyword===k ? "bg-gray-400" : ""}`}
+                            onClick={() => handleKeywordClick(k)}
                         >
-                            {keyword.toUpperCase()}
+                            {k.toUpperCase()}
                         </button>
                     ))}
                 </div>
