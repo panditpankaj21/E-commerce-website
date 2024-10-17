@@ -13,7 +13,6 @@ interface FetchResponse{
 const Sidebar = () => {
 
     const {
-        searchQuery, 
         setSearchQuery,
         selectedCategory,
         setSelectedCategory,
